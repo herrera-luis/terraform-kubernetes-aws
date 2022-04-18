@@ -1,0 +1,30 @@
+{
+    "cluster_version": "1.21",
+    "cluster_service_ipv4_cidr" : "192.168.0.0/16",
+    "admin_users": [
+        {
+          "arn": "arn:aws:iam::501300482750:user/luis.herrera",
+          "name": "luis.herrera",
+          "groups": ["system:masters"]
+        }
+    ],
+    "admin_roles": [
+
+    ],
+    "tags": {
+        "environment": "dev",
+        "team": "dev-team"
+    },
+    "cluster_namespaces" : {
+        "dev" : {
+          "labels" : {
+            "environment": "dev"
+          }
+        },
+        "stage" : {
+            "labels" : {
+              "environment": "stage"
+            }
+          }
+      }
+}
