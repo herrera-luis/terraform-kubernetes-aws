@@ -4,3 +4,5 @@
 .idea
 # Terraform
 .terraform
+terraform.tfstate
+terraform.tfstate.*

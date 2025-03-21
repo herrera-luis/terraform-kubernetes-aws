@@ -16,33 +16,63 @@ module "eks" {
   vpc_id     = var.vpc_id
   subnet_ids = var.subnet_ids
 
-  self_managed_node_groups = {
-    one = {
-      name         = "mixed-1"
-      max_size     = 2
-      desired_size = 1
+  # self_managed_node_groups = {
+  #   one = {
+  #     name         = "mixed-1"
+  #     max_size     = 2
+  #     desired_size = 1
 
-      use_mixed_instances_policy = true
-      mixed_instances_policy = {
-        instances_distribution = {
-          on_demand_base_capacity                  = 0
-          on_demand_percentage_above_base_capacity = 10
-          spot_allocation_strategy                 = "capacity-optimized"
-        }
+  #     use_mixed_instances_policy = true
+  #     mixed_instances_policy = {
+  #       instances_distribution = {
+  #         on_demand_base_capacity                  = 0
+  #         on_demand_percentage_above_base_capacity = 0
+  #         spot_allocation_strategy                 = "capacity-optimized"
+  #       }
 
-        override = [
-          {
-            instance_type     = "m5.large"
-            weighted_capacity = "1"
-          },
-          {
-            instance_type     = "m6i.large"
-            weighted_capacity = "2"
-          },
-        ]
+  #       override = [
+  #         {
+  #           instance_type     = "t4g.small"
+  #           weighted_capacity = "1"
+  #         },
+  #         # {
+  #         #   instance_type     = "t4g.medium"
+  #         #   weighted_capacity = "2"
+  #         # },
+  #       ]
+  #     }
+  #   }
+  # }
+
+  # EKS Managed Node Group(s)
+  eks_managed_node_group_defaults = {
+    ami_type  = "AL2_ARM_64"
+    disk_size = 50
+    # instance_types = ["t4g.small"]
+    # vpc_security_group_ids = [aws_security_group.additional.id]
+  }
+
+  eks_managed_node_groups = {
+    main = {
+      min_size     = 1
+      max_size     = 4
+      desired_size = 2
+
+      instance_types = ["t4g.small"]
+      capacity_type  = "SPOT"
+      labels = {
+        Environment = "dev"
       }
+      # taints = {
+      #   dedicated = {
+      #     key    = "dedicated"
+      #     value  = "gpuGroup"
+      #     effect = "NO_SCHEDULE"
+      #   }
+      # }
     }
   }
+
 
   aws_auth_roles = [for role in local.tfenv.admin_roles :
     {

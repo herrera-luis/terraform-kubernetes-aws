@@ -1,10 +1,10 @@
 {
-    "cluster_version": "1.21",
+    "cluster_version": "1.25",
     "cluster_service_ipv4_cidr" : "192.168.0.0/16",
     "admin_users": [
         {
-          "arn": "arn:aws:iam::501300482750:user/luis.herrera",
-          "name": "luis.herrera",
+          "arn": "arn:aws:iam::535002847494:role/AWSReservedSSO_AdminAccess_6b000f7236f11abb",
+          "name": "luisherrera-student",
           "groups": ["system:masters"]
         }
     ],
